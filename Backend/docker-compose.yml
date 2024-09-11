@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  # Auth Service
+  auth-service:
+    restart: on-failure
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    container_name: auth-service
+    ports:
+      - "3002:3002"  # For HTTP
+      - "50051:50051" # gRPC port for Auth service
+    environment:
+      - MONGO_URL=mongodb://mongodb:27017/auth-service
+    depends_on:
+      - mongodb
+    networks:
+      - usermanagement-network 
+
+    # API Gateway
+  api-gateway:
+    build:
+      context: ./apigateway
+      dockerfile: Dockerfile
+    container_name: api-gatewayuser
+    ports:
+      - "3000:3000"
+    depends_on:
+      - auth-service
+      - profile-service
+    networks:
+      - usermanagement-network 
+
+
+  # Profile Service
+  profile-service:
+    restart: on-failure
+    build:
+      context: ./profile-service
+      dockerfile: Dockerfile
+    container_name: profile-service
+    ports:
+      - "3001:3001"  # For HTTP
+      - "50052:50052" # gRPC port for Profile service
+    environment:
+      - MONGO_URL=mongodb://mongodb:27017/profile-service
+    depends_on:
+      - mongodb
+    networks:
+      - usermanagement-network 
+
+
+  # MongoDB service
+  mongodb:
+    image: mongo
+    container_name: mongodbNEW
+    ports:
+      - "27017:27017"
+    networks:
+      - usermanagement-network  
+    volumes:
+      - mongodb-data:/data/db
+
+volumes:
+  mongodb-data:
+
+
+networks:
+  usermanagement-network:
+    driver: bridge

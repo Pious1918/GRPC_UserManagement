@@ -1,0 +1,61 @@
+
+<div class="registration-container">
+    <h2>Register</h2>
+    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+
+
+      <div>
+        <label for="email">Enter your email</label>
+        <input id="email" type="email" formControlName="email" />
+        <div *ngIf="registrationForm.get('email')?.invalid && registrationForm.get('email')?.touched">
+          <small *ngIf="registrationForm.get('email')?.hasError('required')">
+            Email is required.
+          </small>
+        </div>
+      </div>
+
+
+      <div>
+        <label for="username">Username</label>
+        <input id="username" type="text" formControlName="username" />
+        <div *ngIf="registrationForm.get('username')?.invalid && registrationForm.get('username')?.touched">
+          <small *ngIf="registrationForm.get('username')?.hasError('required')">
+            Username is required.
+          </small>
+          <small *ngIf="registrationForm.get('username')?.hasError('minlength')">
+            Username must be at least 3 characters long.
+          </small>
+        </div>
+      </div>
+  
+      <div>
+        <label for="password">Password</label>
+        <input id="password" type="password" formControlName="password" />
+        <div *ngIf="registrationForm.get('password')?.invalid && registrationForm.get('password')?.touched">
+          <small *ngIf="registrationForm.get('password')?.hasError('required')">
+            Password is required.
+          </small>
+          <small *ngIf="registrationForm.get('password')?.hasError('minlength')">
+            Password must be at least 6 characters long.
+          </small>
+        </div>
+      </div>
+
+
+      <div>
+        <label for="mobile">Enter your Mobile number</label>
+        <input id="mobile" type="text" formControlName="mobile" />
+        <div *ngIf="registrationForm.get('mobile')?.invalid && registrationForm.get('mobile')?.touched">
+          <small *ngIf="registrationForm.get('mobile')?.hasError('required')">
+            Mobile number is required.
+          </small>
+          <small *ngIf="registrationForm.get('mobile')?.hasError('minlength')">
+           Phone number must be 10 digit.
+          </small>
+        </div>
+      </div>
+  
+      <button type="submit" [disabled]="registrationForm.invalid">Register</button>
+    </form>
+  </div>
+  

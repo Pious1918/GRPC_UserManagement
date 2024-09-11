@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package auth;
+
+// Service definition for Authentication
+service AuthService {
+  rpc RegisterUser (RegisterUserRequest) returns (RegisterUserResponse);
+  rpc LoginUser (LoginUserRequest) returns (LoginUserResponse);
+  rpc UpdateUserProfile (UpdateUserProfileRequest) returns (UpdateUserProfileResponse);
+
+}
+
+// Request and response messages for AuthService
+message RegisterUserRequest {
+  string email = 1;
+  string username = 2;
+  string password = 3;
+  string mobile =4;
+}
+
+message RegisterUserResponse {
+  string userId = 1;
+}
+
+message LoginUserRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginUserResponse {
+  string token = 1;
+}
+
+
+message UpdateUserProfileRequest {
+  string userId = 1;
+  string username = 2;
+  string password = 3;
+  string mobile = 4;
+}
+
+message UpdateUserProfileResponse {
+  bool success = 1;
+}
